@@ -1,0 +1,30 @@
+name: BeastGPT Eternal Farmer
+
+on:
+  push:
+  schedule:
+    - cron: "0 */6 * * *"  # Har 6 ghante mein run karega
+  workflow_dispatch:      # Manual button bhi dega
+
+jobs:
+  farm:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install Libraries
+        run: |
+          pip install selenium colorama webdriver-manager
+
+      - name: Run BeastGPT Farmer
+        env:
+          YLH_USER: ${{ secrets.YLH_USER }}
+          YLH_PASS: ${{ secrets.YLH_PASS }}
+        run: python main.py
